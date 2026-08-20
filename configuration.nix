@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, noctalia, ... }:
 
 {
   imports =
@@ -24,8 +24,24 @@
 
   time.timeZone = "America/Sao_Paulo";
 
-  programs.niri.enable = true;
-    
+  programs = {
+    niri.enable = true;
+    noctalia-greeter = {
+      enable = true;
+      settings = {
+        session.default = "Niri";
+        user.default = "gui";
+      };
+    };
+  };
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.gui = import ./home.nix;
+    extraSpecialArgs = { inherit noctalia; };
+    backupFileExtension = "backup";
+  };
+
   services.pipewire = {
     enable = true;
     pulse.enable = true;
@@ -38,8 +54,8 @@
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
   };
 
-  environment.systemPackages = with pkgs; [
-  ];
+  environment.systemPackages = with pkgs; [];
+  environment.pathsToLink = [ "/share/wayland-sessions" ];
 
   nix = {
     settings = {
