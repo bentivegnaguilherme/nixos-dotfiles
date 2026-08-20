@@ -14,6 +14,7 @@
          git
          opencode
        ];
+       file.".config/niri/config.kdl".source = ./niri-config.kdl;
      };
 
     programs = {
