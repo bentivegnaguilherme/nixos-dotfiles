@@ -53,6 +53,7 @@
 
   users.users.gui = {
     isNormalUser = true;
+    shell = pkgs.fish; # login shell; kitty spawns this automatically
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
   };
 
