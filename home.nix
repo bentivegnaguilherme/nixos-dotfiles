@@ -23,7 +23,15 @@ packages = with pkgs; [
           fd # telescope file finding
           gcc # tree-sitter parser + avante build
           gnumake # avante build step
+          bibata-cursors # Bibata-Modern-Classic (black) cursor theme
+          nautilus # file manager
+          gvfs # trash, network, device mounting for nautilus
         ];
+
+        sessionVariables = {
+          XCURSOR_THEME = "Bibata-Modern-Classic";
+          XCURSOR_SIZE = "24";
+        };
         file.".config/niri/config.kdl".source = ./niri-config.kdl;
         file.".config/noctalia/config.toml".source = ./noctalia-config.toml;
         file.".config/fish/config.fish".source = ./fish-config.fish;
