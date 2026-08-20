@@ -47,6 +47,8 @@
     pulse.enable = true;
   };
   
+  fonts.packages = with pkgs; [ jetbrains-mono ];
+
   hardware.bluetooth.enable = true;
 
   users.users.gui = {
