@@ -35,18 +35,9 @@
   users.users.gui = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [
-      tree
-    ];
   };
 
   environment.systemPackages = with pkgs; [
-    vim 
-    wget
-    git
-    alacritty
-    opencode
-    firefox
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
