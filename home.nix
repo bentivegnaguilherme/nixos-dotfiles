@@ -18,6 +18,7 @@ packages = with pkgs; [
           pulseaudio
         ];
         file.".config/niri/config.kdl".source = ./niri-config.kdl;
+        file.".config/noctalia/config.toml".source = ./noctalia-config.toml;
       };
 
     xdg.configFile."wireplumber/wireplumber.conf.d/50-bluez-a2dp.conf".text = ''
