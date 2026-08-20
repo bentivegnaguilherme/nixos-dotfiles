@@ -79,6 +79,8 @@ output "DP-2" {
     // 2560x1440 main monitor. NOTE: this panel does not expose a 180Hz mode;
     // `niri msg outputs` shows 200/165/144/120Hz, so 200 was chosen (highest).
     mode "2560x1440@200.002"
+    // Keyboard focus (and the pointer) start here after login, not on DP-3.
+    focus-at-startup true
 }
 
 output "DP-3" {
