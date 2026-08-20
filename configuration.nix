@@ -51,6 +51,8 @@
 
   hardware.bluetooth.enable = true;
 
+  programs.fish.enable = true; # required for users.users.gui.shell
+
   users.users.gui = {
     isNormalUser = true;
     shell = pkgs.fish; # login shell; kitty spawns this automatically
