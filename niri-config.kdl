@@ -310,10 +310,12 @@ window-rule {
     open-floating true
 }
 
-// Nautilus always opens as a floating window.
+// Nautilus always opens as a small, centered floating window.
 window-rule {
     match app-id=r#"org\.gnome\.Nautilus$"#
     open-floating true
+    default-column-width { fixed 900; }
+    default-window-height { fixed 620; }
 }
 
 // Example: block out two password managers from screen capture.
