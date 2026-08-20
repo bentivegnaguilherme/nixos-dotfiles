@@ -17,11 +17,18 @@ packages = with pkgs; [
           opencode
           pulseaudio
           starship
+          wl-clipboard # nvim system clipboard (wl-copy/wl-paste)
+          lazygit # <leader>gg in LazyVim
+          ripgrep # telescope live-grep
+          fd # telescope file finding
+          gcc # tree-sitter parser + avante build
+          gnumake # avante build step
         ];
         file.".config/niri/config.kdl".source = ./niri-config.kdl;
         file.".config/noctalia/config.toml".source = ./noctalia-config.toml;
         file.".config/fish/config.fish".source = ./fish-config.fish;
         file.".config/kitty/kitty.conf".source = ./kitty.conf;
+        file.".config/nvim".source = ./nvim;
       };
 
     xdg.configFile."wireplumber/wireplumber.conf.d/50-bluez-a2dp.conf".text = ''
