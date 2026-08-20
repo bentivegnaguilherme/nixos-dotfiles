@@ -21,6 +21,7 @@ packages = with pkgs; [
         file.".config/niri/config.kdl".source = ./niri-config.kdl;
         file.".config/noctalia/config.toml".source = ./noctalia-config.toml;
         file.".config/fish/config.fish".source = ./fish-config.fish;
+        file.".config/kitty/kitty.conf".source = ./kitty.conf;
       };
 
     xdg.configFile."wireplumber/wireplumber.conf.d/50-bluez-a2dp.conf".text = ''
