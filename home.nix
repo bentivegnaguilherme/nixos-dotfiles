@@ -1,6 +1,8 @@
-  { config, pkgs, ... }:
+  { config, pkgs, noctalia, ... }:
  
   {
+     imports = [ noctalia.homeModules.default ];
+
      home = {
        username = "gui";
        homeDirectory = "/home/gui";
@@ -23,6 +25,9 @@
         shellAliases = {
           btw = "echo i use arch btw";
         };
+      };
+      noctalia = {
+        enable = true;
       };
     };
   }  
