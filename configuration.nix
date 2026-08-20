@@ -43,6 +43,12 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  zramSwap = {
+    enable = true;
+    memoryPercent = 25;  
+    priority = 100;   
+  };
+
   system.stateVersion = "26.05";
 
 }
