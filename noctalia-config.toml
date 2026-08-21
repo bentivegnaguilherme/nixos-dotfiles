@@ -38,7 +38,7 @@ margin_edge = 0
 margin_ends = 0
 padding = 40
 position = "top"
-radius = 12
+radius = 0
 reserve_space = false
 scale = 1.0
 shadow = true
@@ -334,6 +334,7 @@ time_format = "{:%H:%M}"
 
     [shell.screen_corners]
     enabled = true
+    size = 10
 
     [shell.shadow]
     alpha = 0.55000000000000004
