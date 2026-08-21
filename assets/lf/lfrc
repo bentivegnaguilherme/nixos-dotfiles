@@ -1,0 +1,24 @@
+# lf config — preview stack adapted from jackielii/dotfiles
+set previewer ~/.config/lf/preview
+set cleaner ~/.config/lf/clean
+
+set shellopts '-eu'
+set ifs "\n"
+set scrolloff 5
+set hidden
+set icons
+set incsearch
+set incfilter
+set cursorpreviewfmt "\033[7;2m"
+set promptfmt "\033[32;1m%u@%h\033[0m:\033[34;1m%d\033[0m"
+
+# Open: text in nvim, everything else via xdg-open
+cmd open &${{
+  case "$(file --mime-type -Lb "$f")" in
+    text/* | application/json) nvim "$fx" ;;
+    *) for f in $fx; do xdg-open "$f" >/dev/null 2>&1 & done ;;
+  esac
+}}
+map <enter> open
+
+map R :reload; clear; recol

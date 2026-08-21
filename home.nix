@@ -43,6 +43,14 @@ packages = with pkgs; [
           gvfs # trash, network, device mounting for nautilus
           obsidian # notes; vault at ~/notes, auto-synced to a private GitHub repo
           lazygit # git TUI; <leader>gg inside Neovim opens it floating
+          lf # terminal file manager with kitty image previews
+          bat # syntax-highlighted file viewer (lf text fallback)
+          ffmpeg
+          ffmpegthumbnailer # video thumbnails for lf previews
+          poppler-utils # pdftoppm for lf pdf previews
+          librsvg # rsvg-convert for lf svg previews
+          imagemagick # identify/convert for lf image rotation
+          file # mime detection for lf previews
           unzip # mason package installs
           gh # github cli
         ];
@@ -380,5 +388,13 @@ packages = with pkgs; [
     home.file = {
       ".tmux.conf".source = ./assets/tmux/tmux.conf;
       ".tmux.conf.local".source = ./assets/tmux/tmux.conf.local;
+    };
+
+    # lf file manager: jackielii's kitty-image preview stack (patched for
+    # NixOS: gstat->stat, md5->md5sum, pistol->bat, cache mkdir).
+    xdg.configFile = {
+      "lf/preview".source = ./assets/lf/preview;
+      "lf/clean".source = ./assets/lf/clean;
+      "lf/lfrc".source = ./assets/lf/lfrc;
     };
   }  

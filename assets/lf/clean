@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Clear any image kitty icat drew in the preview pane.
+kitty +kitten icat --clear --stdin no --transfer-mode memory >/dev/tty 2>&1
