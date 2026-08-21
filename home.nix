@@ -362,18 +362,17 @@ packages = with pkgs; [
       noctalia = {
         enable = true;
       };
-      # Plain tmux with one tweak: Alt+hjkl moves between panes. Inside a
-      # Neovim pane the same Alt key is forwarded so smart-splits handles
-      # it (C-h is unusable here: tmux legacy encoding turns it into
-      # backspace before nvim sees it).
+      # Plain tmux with one tweak: the canonical vim-tmux-navigator binds —
+      # C-hjkl moves between panes, and hands off to Neovim's matching
+      # plugin when a vim pane is focused. One grid, one key.
       tmux = {
         enable = true;
         extraConfig = ''
           is_vim="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\S+/)?g?(view|n?vim?x?)(diff)?$'"
-          bind -n M-h if-shell "$is_vim" "send-keys M-h" "select-pane -L"
-          bind -n M-j if-shell "$is_vim" "send-keys M-j" "select-pane -D"
-          bind -n M-k if-shell "$is_vim" "send-keys M-k" "select-pane -U"
-          bind -n M-l if-shell "$is_vim" "send-keys M-l" "select-pane -R"
+          bind -n C-h if-shell "$is_vim" "send-keys C-h" "select-pane -L"
+          bind -n C-j if-shell "$is_vim" "send-keys C-j" "select-pane -D"
+          bind -n C-k if-shell "$is_vim" "send-keys C-k" "select-pane -U"
+          bind -n C-l if-shell "$is_vim" "send-keys C-l" "select-pane -R"
         '';
       };
     };
