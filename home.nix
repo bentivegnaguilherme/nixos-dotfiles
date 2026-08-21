@@ -236,19 +236,21 @@ packages = with pkgs; [
             fi
             STATE="$HOME/.cache/noctalia-papirus-color"
             DST="$HOME/.local/share/icons/Papirus-Dark"
-            PF=$(command -v papirus-folders)
-            SRC=""
-            [ -n "$PF" ] && SRC="$(dirname "$(dirname "$PF")")/share/icons/Papirus-Dark"
-            [ -d "$SRC" ] || [ -d "/run/current-system/sw/share/icons/Papirus-Dark" ] && { [ -d "$SRC" ] || SRC="/run/current-system/sw/share/icons/Papirus-Dark"; }
-            if [ -n "$SRC" ] && [ "$COLOR" != "$(cat "$STATE" 2>/dev/null || true)" ]; then
+            SRC="/etc/profiles/per-user/$(id -un)/share/icons/Papirus-Dark"
+            if [ ! -d "$SRC" ]; then
+              PF=$(command -v papirus-folders)
+              [ -n "$PF" ] && SRC="$(dirname "$(dirname "$PF")")/share/icons/Papirus-Dark"
+            fi
+            if [ -d "$SRC" ] && [ "$COLOR" != "$(cat "$STATE" 2>/dev/null || true)" ]; then
               if [ ! -d "$DST" ]; then
                 mkdir -p "$HOME/.local/share/icons"
                 rm -rf "$DST.tmp"
                 cp -r "$SRC" "$DST.tmp" && mv "$DST.tmp" "$DST"
               fi
-              papirus-folders -C --theme Papirus-Dark --color "$COLOR" >/dev/null 2>&1 || true
-              command -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -f "$DST" >/dev/null 2>&1 || true
-              printf '%s' "$COLOR" > "$STATE"
+              if papirus-folders -C --theme Papirus-Dark --color "$COLOR" >/dev/null 2>&1; then
+                command -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -f "$DST" >/dev/null 2>&1 || true
+                printf '%s' "$COLOR" > "$STATE"
+              fi
             fi
           fi
         '';
