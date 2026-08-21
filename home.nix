@@ -24,8 +24,6 @@ packages = with pkgs; [
           gcc # tree-sitter parser + avante build
           gnumake # avante build step
           bibata-cursors # Bibata-Modern-Classic (black) cursor theme
-          papirus-icon-theme # folder colors follow Noctalia accent via theme-sync.sh
-          papirus-folders # recolor tool for the above
           nautilus # file manager
           gvfs # trash, network, device mounting for nautilus
           unzip # mason package installs
@@ -50,7 +48,6 @@ packages = with pkgs; [
         cursor-size = 24;
         color-scheme = "prefer-dark";
         gtk-theme = "Adwaita-dark";
-        icon-theme = "Papirus-Dark";
         font-name = "DejaVu Sans 11";
       };
 
@@ -206,53 +203,6 @@ packages = with pkgs; [
             }
           }
           EOF
-
-          # --- Papirus folder color follows the accent hue ---
-          # Runs against a writable copy in ~/.local/share/icons (the store
-          # copy is read-only); skips work when the color is unchanged.
-          if command -v papirus-folders >/dev/null 2>&1; then
-            H=$(printf '%s' "$ACC" | awk '{
-              r = strtonum("0x" substr($0, 2, 2))
-              g = strtonum("0x" substr($0, 4, 2))
-              b = strtonum("0x" substr($0, 6, 2))
-              mx = r > g ? (r > b ? r : b) : (g > b ? g : b)
-              mn = r < g ? (r < b ? r : b) : (g < b ? g : b)
-              d = mx - mn
-              if (d == 0) { print 220; exit }
-              h = (mx == r) ? (g - b) / d : ((mx == g) ? (b - r) / d + 2 : (r - g) / d + 4)
-              print (h * 60 + 360) % 360
-            }' 2>/dev/null || echo 220)
-            H=$(printf '%.0f' "''${H:-220}" 2>/dev/null || echo 220)
-            COLOR=blue
-            if   [ "$H" -lt 15 ] || [ "$H" -ge 345 ]; then COLOR=red
-            elif [ "$H" -lt 45 ];  then COLOR=orange
-            elif [ "$H" -lt 70 ];  then COLOR=yellow
-            elif [ "$H" -lt 160 ]; then COLOR=green
-            elif [ "$H" -lt 200 ]; then COLOR=cyan
-            elif [ "$H" -lt 255 ]; then COLOR=blue
-            elif [ "$H" -lt 285 ]; then COLOR=indigo
-            elif [ "$H" -lt 320 ]; then COLOR=violet
-            else                        COLOR=magenta
-            fi
-            STATE="$HOME/.cache/noctalia-papirus-color"
-            DST="$HOME/.local/share/icons/Papirus-Dark"
-            SRC="/etc/profiles/per-user/$(id -un)/share/icons/Papirus-Dark"
-            if [ ! -d "$SRC" ]; then
-              PF=$(command -v papirus-folders)
-              [ -n "$PF" ] && SRC="$(dirname "$(dirname "$PF")")/share/icons/Papirus-Dark"
-            fi
-            if [ -d "$SRC" ] && [ "$COLOR" != "$(cat "$STATE" 2>/dev/null || true)" ]; then
-              if [ ! -d "$DST" ]; then
-                mkdir -p "$HOME/.local/share/icons"
-                rm -rf "$DST.tmp"
-                cp -rL "$SRC" "$DST.tmp" && chmod -R u+w "$DST.tmp" && mv "$DST.tmp" "$DST"
-              fi
-              if papirus-folders -t Papirus-Dark -C "$COLOR" >/dev/null 2>&1; then
-                command -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -f "$DST" >/dev/null 2>&1 || true
-                printf '%s' "$COLOR" > "$STATE"
-              fi
-            fi
-          fi
         '';
       };
       systemd.user.services.noctalia-theme-sync = {
