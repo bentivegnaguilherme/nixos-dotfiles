@@ -96,7 +96,7 @@ packages = with pkgs; [
           }
           /* Paint chrome elements directly: --lwt-* background vars are
              ignored unless a lightweight theme is active. */
-          * { font-family: "JetBrains Mono" !important; }
+          * { font-family: \"JetBrains Mono\" !important; }
           #navigator-toolbox, #TabsToolbar { background-color: $BG !important; }
           #nav-bar, #PersonalToolbar { background-color: $CARD !important; }
           .tab-background[selected]:not([multiselected]) {
