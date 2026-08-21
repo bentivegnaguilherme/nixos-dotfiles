@@ -8,9 +8,8 @@ colourscheme dark
 set hintdelay 100          " snappier hint following
 set theme default
 
-" --- Sane hinting (most popular tweak) ---
+" --- Sane hinting (reflow hints in reading order) ---
 set hintfiltermode vimperator-reflow
-set hintnames numeric
 
 " --- Vim-style tab motion ---
 bind J tabprev
