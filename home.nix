@@ -97,8 +97,25 @@ packages = with pkgs; [
           /* Paint chrome elements directly: --lwt-* background vars are
              ignored unless a lightweight theme is active. */
           * { font-family: \"JetBrains Mono\" !important; }
-          #navigator-toolbox, #TabsToolbar { background-color: $BG !important; }
-          #nav-bar, #PersonalToolbar { background-color: $CARD !important; }
+          #navigator-toolbox, #TabsToolbar, #nav-bar { background-color: $BG !important; }
+          #PersonalToolbar { background-color: $CARD !important; }
+          /* One-bar layout: tabs left, urlbar right, fused into a single row. */
+          #navigator-toolbox { position: relative !important; }
+          #TabsToolbar {
+            margin-right: 46vw !important;
+            margin-bottom: calc(-1 * var(--tab-min-height, 38px)) !important;
+          }
+          #nav-bar {
+            margin-left: 46vw !important;
+            margin-top: calc(-1 * var(--tab-min-height, 38px)) !important;
+            margin-right: 130px !important;
+          }
+          .titlebar-buttonbox-container {
+            position: absolute !important;
+            top: 0 !important;
+            right: 0 !important;
+            z-index: 10 !important;
+          }
           .tab-background[selected]:not([multiselected]) {
             background-color: $POP !important;
           }
