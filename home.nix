@@ -106,10 +106,21 @@ packages = with pkgs; [
           menupopup > menuitem:hover {
             background: color-mix(in srgb, $ACC 22%, transparent) !important;
           }"
-          for prof in "$HOME"/.mozilla/firefox/*.default*; do
-            [ -d "$prof" ] || continue
-            mkdir -p "$prof/chrome"
-            printf '%s\n' "$CHROME" > "$prof/chrome/userChrome.css"
+          # Find every registered profile via profiles.ini (Firefox may live
+          # under ~/.config/mozilla or the legacy ~/.mozilla).
+          for ini in "$HOME/.config/mozilla/firefox/profiles.ini" "$HOME/.mozilla/firefox/profiles.ini"; do
+            [ -f "$ini" ] || continue
+            root=$(dirname "$ini")
+            while IFS= read -r p; do
+              [ -n "$p" ] || continue
+              case "$p" in
+                /*) prof="$p" ;;
+                *) prof="$root/$p" ;;
+              esac
+              [ -d "$prof" ] || continue
+              mkdir -p "$prof/chrome"
+              printf '%s\n' "$CHROME" > "$prof/chrome/userChrome.css"
+            done < <(grep '^Path=' "$ini" | cut -d= -f2-)
           done
         '';
       };
