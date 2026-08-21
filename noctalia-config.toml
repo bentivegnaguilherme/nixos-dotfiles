@@ -400,6 +400,10 @@ enabled = true
 refresh_minutes = 30
 unit = "celsius"
 
+[widget.launcher]
+custom_image = "/home/gui/.config/noctalia/arch-logo.svg"
+custom_image_colorize = false
+
 [widget.control-center]
 enabled = false
 
