@@ -362,8 +362,18 @@ packages = with pkgs; [
       noctalia = {
         enable = true;
       };
-      # Plain tmux, default configuration — no custom prefix or styling.
-      tmux.enable = true;
+      # Plain tmux with one tweak: Alt+hjkl moves between panes and hands
+      # off to Neovim's C-hjkl (smart-splits) when a vim pane is focused.
+      tmux = {
+        enable = true;
+        extraConfig = ''
+          is_vim="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\S+/)?g?(view|n?vim?x?)(diff)?$'"
+          bind -n M-h if-shell "$is_vim" "send-keys C-h" "select-pane -L"
+          bind -n M-j if-shell "$is_vim" "send-keys C-j" "select-pane -D"
+          bind -n M-k if-shell "$is_vim" "send-keys C-k" "select-pane -U"
+          bind -n M-l if-shell "$is_vim" "send-keys C-l" "select-pane -R"
+        '';
+      };
     };
 
     # lf file manager: jackielii's kitty-image preview stack (patched for
