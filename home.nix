@@ -24,7 +24,21 @@ packages = with pkgs; [
           gcc # tree-sitter parser + avante build
           gnumake # avante build step
           bibata-cursors # Bibata-Modern-Classic (black) cursor theme
-          morewaita-icon-theme # Adwaita-style line art with extended app coverage
+          # Static Papirus-Dark with black folders; recolored at build time.
+          # Derivation name must NOT contain "-black": papirus-folders strips
+          # the first "-<color>" occurrence in the path when relinking icons.
+          (runCommand "papirus-icon-theme-blk"
+            { nativeBuildInputs = [ papirus-folders ]; }
+            ''
+              mkdir -p $out/share/icons
+              cp -r ${papirus-icon-theme}/share/icons/Papirus \
+                    ${papirus-icon-theme}/share/icons/Papirus-Dark \
+                    ${papirus-icon-theme}/share/icons/hicolor \
+                    $out/share/icons/
+              chmod -R u+w $out/share/icons
+              export HOME=$TMPDIR
+              XDG_DATA_DIRS="$out/share" papirus-folders -o -t Papirus-Dark -C black
+            '')
           nautilus # file manager
           gvfs # trash, network, device mounting for nautilus
           unzip # mason package installs
@@ -49,7 +63,7 @@ packages = with pkgs; [
         cursor-size = 24;
         color-scheme = "prefer-dark";
         gtk-theme = "Adwaita-dark";
-        icon-theme = "MoreWaita";
+        icon-theme = "Papirus-Dark";
         font-name = "DejaVu Sans 11";
       };
 
@@ -57,11 +71,6 @@ packages = with pkgs; [
       # its monospace look via fontconfig's monospace default.
       fonts.fontconfig.defaultFonts.sansSerif = [ "DejaVu Sans" ];
       fonts.fontconfig.defaultFonts.monospace = [ "DejaVu Sans Mono" ];
-
-      # Smaller icons in Nautilus grid view.
-      dconf.settings."org/gnome/nautilus/preferences" = {
-        default-zoom-level = "small";
-      };
 
       # Noctalia themes GTK apps via CSS only; it never writes settings.ini.
       # Firefox's System Theme reads the GTK theme name / dark flag instead,
