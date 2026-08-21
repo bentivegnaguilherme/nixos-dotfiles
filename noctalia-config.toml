@@ -359,7 +359,7 @@ pure_black_dark = false
 source = "wallpaper"
 
     [theme.templates]
-    builtin_ids = [ "gtk3", "gtk4", "kitty", "niri", "qt" ] # starship removed: static Catppuccin via home-manager now owns starship.toml
+    builtin_ids = [ "gtk3", "gtk4", "kitty", "niri", "qt", "starship" ]
     community_ids = []
     enable_builtin_templates = true
     enable_community_templates = true
