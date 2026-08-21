@@ -57,6 +57,14 @@ packages = with pkgs; [
         file.".config/nvim".source = ./nvim;
       };
 
+      # Per-project dev environments: "use flake" in a project's .envrc
+      # loads its tools on cd, unloads on leave. nix-direnv caches so
+      # re-entry is instant.
+      programs.direnv = {
+        enable = true;
+        nix-direnv.enable = true;
+      };
+
       # GTK apps (nautilus, firefox) pick the cursor from gsettings, not env vars.
       dconf.settings."org/gnome/desktop/interface" = {
         cursor-theme = "Bibata-Modern-Classic";
