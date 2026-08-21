@@ -24,6 +24,7 @@ packages = with pkgs; [
           gcc # tree-sitter parser + avante build
           gnumake # avante build step
           bibata-cursors # Bibata-Modern-Classic (black) cursor theme
+          morewaita-icon-theme # Adwaita-style line art with extended app coverage
           nautilus # file manager
           gvfs # trash, network, device mounting for nautilus
           unzip # mason package installs
@@ -48,6 +49,7 @@ packages = with pkgs; [
         cursor-size = 24;
         color-scheme = "prefer-dark";
         gtk-theme = "Adwaita-dark";
+        icon-theme = "MoreWaita";
         font-name = "DejaVu Sans 11";
       };
 
