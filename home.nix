@@ -25,6 +25,7 @@ packages = with pkgs; [
           gnumake # avante build step
           bibata-cursors # Bibata-Modern-Classic (black) cursor theme
           papirus-icon-theme # folder colors follow Noctalia accent via theme-sync.sh
+          papirus-folders # recolor tool for the above
           nautilus # file manager
           gvfs # trash, network, device mounting for nautilus
           unzip # mason package installs
