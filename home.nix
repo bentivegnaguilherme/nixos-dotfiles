@@ -48,11 +48,12 @@ packages = with pkgs; [
         cursor-size = 24;
         color-scheme = "prefer-dark";
         gtk-theme = "Adwaita-dark";
-        font-name = "DejaVu Sans Mono 11";
+        font-name = "DejaVu Sans 11";
       };
 
-      # System-wide font defaults: DejaVu Sans Mono everywhere monospace is
-      # requested (kitty's look, applied to the rest of the system).
+      # System-wide font defaults: standard sans for app UIs; kitty keeps
+      # its monospace look via fontconfig's monospace default.
+      fonts.fontconfig.defaultFonts.sansSerif = [ "DejaVu Sans" ];
       fonts.fontconfig.defaultFonts.monospace = [ "DejaVu Sans Mono" ];
 
       # Smaller icons in Nautilus grid view.
@@ -114,7 +115,6 @@ packages = with pkgs; [
           }
           /* Paint chrome elements directly: --lwt-* background vars are
              ignored unless a lightweight theme is active. */
-          * { font-family: \"DejaVu Sans Mono\" !important; }
           #navigator-toolbox, #TabsToolbar, #nav-bar { background-color: $BG !important; }
           #PersonalToolbar { background-color: $CARD !important; }
           .tab-background[selected]:not([multiselected]) {
