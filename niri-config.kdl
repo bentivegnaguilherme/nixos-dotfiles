@@ -341,18 +341,13 @@ recent-windows {
     highlight {
         corner-radius 12
     }
+}
 
 // Cursor theme for the compositor and every spawned client. Session env
 // vars don't reach niri (greeter starts it directly), so declare them here.
 environment {
     XCURSOR_THEME "Bibata-Modern-Classic"
     XCURSOR_SIZE "24"
-}
-
-binds {
-        Alt+Tab       { next-window; }
-        Alt+Shift+Tab { previous-window; }
-    }
 }
 
 binds {
