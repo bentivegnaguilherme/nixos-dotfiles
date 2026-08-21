@@ -334,7 +334,6 @@ window-rule {
 window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
-    opacity 0.9
 }
 
 // Alt-Tab recent-windows switcher, grafted from DankMaterialShell's alttab config.
@@ -347,7 +346,6 @@ recent-windows {
 // Cursor theme for the compositor and every spawned client. Session env
 // vars don't reach niri (greeter starts it directly), so declare them here.
 environment {
-  QT_QPA_PLATFORMTHEME "qt6ct"
   XCURSOR_THEME "Bibata-Modern-Classic"
   XCURSOR_SIZE "24"
 }
@@ -393,6 +391,8 @@ binds {
     // "-l 1.0" limits the volume to 100%.
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
+    Mod+Period  allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
+    Mod+Comma   allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
     XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
 
@@ -557,10 +557,11 @@ binds {
     Mod+BracketLeft  { consume-or-expel-window-left; }
     Mod+BracketRight { consume-or-expel-window-right; }
 
-    // Consume one window from the right to the bottom of the focused column.
-    Mod+Comma  { consume-window-into-column; }
+    // Consume/expel moved to Mod+Ctrl+Comma / Mod+Ctrl+Period to free
+    // Mod+Comma / Mod+Period for volume control.
+    Mod+Ctrl+Comma  { consume-window-into-column; }
     // Expel the bottom window from the focused column to the right.
-    Mod+Period { expel-window-from-column; }
+    Mod+Ctrl+Period { expel-window-from-column; }
 
     // Cycle through widths set in preset-column-widths.
     Mod+R { switch-preset-column-width; }
