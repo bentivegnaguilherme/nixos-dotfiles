@@ -62,12 +62,16 @@
       };
     };
   };
-  services.pipewire.wireplumber.extraConfig."51-no-hfp" = {
-    "monitor.bluez.properties" = {
-      "bluez5.enable-hsp-off" = true;
-      "bluez5.enable-hfp-off" = true;
-    };
-  };
+  # Written explicitly (the wireplumber.extraConfig module option produced
+  # no file on this channel): without it wireplumber races bluetoothd for
+  # the A2DP sink ("device or resource busy") and BT speakers vanish from
+  # audio outputs mid-session.
+  environment.etc."wireplumber/wireplumber.conf.d/51-no-hfp.conf".text = ''
+    monitor.bluez.properties = {
+      bluez5.enable-hsp-off = true
+      bluez5.enable-hfp-off = true
+    }
+  '';
 
   programs.fish.enable = true; # required for users.users.${username}.shell
 
