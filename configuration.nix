@@ -53,6 +53,9 @@
 
   programs.fish.enable = true; # required for users.users.gui.shell
 
+  # Lets dynamically-linked prebuilt binaries run (mason tools like stylua).
+  programs.nix-ld.enable = true;
+
   users.users.gui = {
     isNormalUser = true;
     shell = pkgs.fish; # login shell; kitty spawns this automatically
