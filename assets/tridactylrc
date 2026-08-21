@@ -1,0 +1,47 @@
+" Tridactyl config - distilled from the official .tridactylrc example and
+" the most commonly copied community settings. Auto-loaded from
+" ~/.config/tridactyl/tridactylrc at startup (requires native messenger,
+" run :installnative once). Apply changes without restart: :source this file.
+
+" --- Look & feel ---
+colourscheme dark
+set hintdelay 100          " snappier hint following
+set theme default
+
+" --- Sane hinting (most popular tweak) ---
+set hintfiltermode vimperator-reflow
+set hintnames numeric
+
+" --- Vim-style tab motion ---
+bind J tabprev
+bind K tabnext
+bind gH tabfirst
+bind gL tablast
+
+" --- Search / open shortcuts ---
+bind ,y composite tabopen https://youtube.com/results?search_query=
+bind ,d tabopen https://duckduckgo.com/?q=
+bind ,w tabopen https://en.wikipedia.org/w/index.php?search=
+
+" --- Search engine keywords for the command line (:open ddg cats) ---
+set searchurls.ddg https://duckduckgo.com/?q=%s
+set searchurls.yt https://www.youtube.com/results?search_query=%s
+set searchurls.w https://en.wikipedia.org/w/index.php?search=%s
+set searchurls.gh https://github.com/search?q=%s
+set searchurls.md https://developer.mozilla.org/en-US/search?q=%s
+
+" --- Wayland integration (this machine uses kitty + wl-copy) ---
+set externalclipboardcmd "wl-copy"
+js tri.browserBg.runtime.getPlatformInfo().then(os=>{const editorcmd = os.os=="linux" ? "kitty nvim" : "auto"; tri.config.set("editorcmd", editorcmd)})
+
+" --- Don't steal keys from real text editors on the web (github, docs) ---
+unbind --mode=insert <C-f>
+unbind --mode=ex <C-f>
+
+" --- Study mode helpers ---
+" gi = jump to first input box (search bars, login fields)
+" ;c = hint collapsible comment sections (reddit/HN style)
+bind ;c hint -c [class*="expand"],[class="togg"]
+
+" For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
+" vim: set filetype=tridactyl

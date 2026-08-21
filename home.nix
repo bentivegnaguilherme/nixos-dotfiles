@@ -51,6 +51,9 @@ packages = with pkgs; [
         };
 
         file.".config/niri/config.kdl".source = ./niri-config.kdl;
+        # Tridactyl auto-sources this at startup once the native messenger
+        # is installed (:installnative in any tab).
+        file.".config/tridactyl/tridactylrc".source = ./assets/tridactylrc;
         file.".config/noctalia/config.toml".source = ./noctalia-config.toml;
         file.".config/fish/config.fish".source = ./fish-config.fish;
         file.".config/kitty/kitty.conf".source = ./kitty.conf;

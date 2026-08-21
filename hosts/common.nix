@@ -53,13 +53,37 @@
   # Lets dynamically-linked prebuilt binaries run (mason tools like stylua).
   programs.nix-ld.enable = true;
 
-  # Allow Firefox userChrome.css (Noctalia color sync in home.nix).
+  # Allow Firefox userChrome.css (Noctalia color sync in home.nix) and
+  # provision extensions declaratively: missing ones auto-install at
+  # startup, removals are reinstalled on next restart.
   environment.etc."firefox/policies/policies.json".text = builtins.toJSON {
     policies = {
       Preferences = {
         "toolkit.legacyUserProfileCustomizations.stylesheets" = {
           Value = true;
           Status = "locked";
+        };
+      };
+      ExtensionSettings = {
+        "uBlock0@raymondhill.net" = {
+          installation_mode = "normal_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/addon.xpi";
+        };
+        "addon@darkreader.org" = {
+          installation_mode = "normal_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/addon.xpi";
+        };
+        "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
+          installation_mode = "normal_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/addon.xpi";
+        };
+        "myallychou@gmail.com" = {
+          installation_mode = "normal_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/youtube-recommended-videos/addon.xpi";
+        };
+        "tridactyl.vim@cmcaine.co.uk" = {
+          installation_mode = "normal_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/tridactyl-vim/addon.xpi";
         };
       };
     };
