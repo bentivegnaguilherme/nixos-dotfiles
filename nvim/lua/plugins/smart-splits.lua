@@ -6,11 +6,17 @@ return {
     local map = vim.keymap.set
     local ss = require("smart-splits")
 
-    -- Move between splits (seamless with kitty/niri via the same keys).
+    -- Move between splits. Alt variants are the ones tmux forwards when
+    -- a vim pane is focused (C-h gets mangled into backspace by tmux's
+    -- legacy encoding); C-hjkl kept for direct use in kitty.
     map("n", "<C-h>", ss.move_cursor_left, { desc = "Move to left window" })
     map("n", "<C-j>", ss.move_cursor_down, { desc = "Move to lower window" })
     map("n", "<C-k>", ss.move_cursor_up, { desc = "Move to upper window" })
     map("n", "<C-l>", ss.move_cursor_right, { desc = "Move to right window" })
+    map("n", "<M-h>", ss.move_cursor_left, { desc = "Move to left window" })
+    map("n", "<M-j>", ss.move_cursor_down, { desc = "Move to lower window" })
+    map("n", "<M-k>", ss.move_cursor_up, { desc = "Move to upper window" })
+    map("n", "<M-l>", ss.move_cursor_right, { desc = "Move to right window" })
 
     -- Resizing splits.
     map("n", "<A-h>", ss.resize_left, { desc = "Resize split left" })
