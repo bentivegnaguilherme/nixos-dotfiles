@@ -376,6 +376,12 @@ packages = with pkgs; [
           bind -n C-j if-shell "$is_vim" "send-keys C-j" "select-pane -D"
           bind -n C-k if-shell "$is_vim" "send-keys C-k" "select-pane -U"
           bind -n C-l if-shell "$is_vim" "send-keys C-l" "select-pane -R"
+          # New windows/splits start in the current pane's directory, so
+          # tools scoped per-project (e.g. opencode sessions) see the same
+          # data no matter which pane you launch them from.
+          bind c new-window -c "#{pane_current_path}"
+          bind % split-window -h -c "#{pane_current_path}"
+          bind '"' split-window -v -c "#{pane_current_path}"
         '';
       };
     };
