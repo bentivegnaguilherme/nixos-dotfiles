@@ -66,7 +66,7 @@ input {
 
     // Focus windows and outputs automatically when moving the mouse into them.
     // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
-    // focus-follows-mouse max-scroll-amount="0%"
+    focus-follows-mouse max-scroll-amount="0%"
 }
 
 // You can configure outputs by their name, which you can find
@@ -258,7 +258,7 @@ spawn-at-startup "noctalia"
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
-    // skip-at-startup
+    skip-at-startup
 }
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -334,6 +334,7 @@ window-rule {
 window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
+    opacity 0.9
 }
 
 // Alt-Tab recent-windows switcher, grafted from DankMaterialShell's alttab config.
@@ -346,8 +347,14 @@ recent-windows {
 // Cursor theme for the compositor and every spawned client. Session env
 // vars don't reach niri (greeter starts it directly), so declare them here.
 environment {
-    XCURSOR_THEME "Bibata-Modern-Classic"
-    XCURSOR_SIZE "24"
+  QT_QPA_PLATFORMTHEME "qt6ct"
+  XCURSOR_THEME "Bibata-Modern-Classic"
+  XCURSOR_SIZE "24"
+}
+
+cursor {
+  xcursor-theme "Bibata-Modern-Classic"
+  xcursor-size 24
 }
 
 binds {
