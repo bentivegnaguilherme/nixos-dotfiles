@@ -245,7 +245,7 @@ packages = with pkgs; [
               if [ ! -d "$DST" ]; then
                 mkdir -p "$HOME/.local/share/icons"
                 rm -rf "$DST.tmp"
-                cp -r "$SRC" "$DST.tmp" && mv "$DST.tmp" "$DST"
+                cp -rL "$SRC" "$DST.tmp" && chmod -R u+w "$DST.tmp" && mv "$DST.tmp" "$DST"
               fi
               if papirus-folders -t Papirus-Dark -C "$COLOR" >/dev/null 2>&1; then
                 command -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -f "$DST" >/dev/null 2>&1 || true
