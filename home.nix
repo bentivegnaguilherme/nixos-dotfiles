@@ -42,6 +42,7 @@ packages = with pkgs; [
           nautilus # file manager
           gvfs # trash, network, device mounting for nautilus
           obsidian # notes; vault at ~/notes, auto-synced to a private GitHub repo
+          lazygit # git TUI; <leader>gg inside Neovim opens it floating
           unzip # mason package installs
           gh # github cli
         ];
@@ -352,6 +353,37 @@ packages = with pkgs; [
       };
       noctalia = {
         enable = true;
+      };
+      # Terminal multiplexer. Prefix stays the default C-b; panes are
+      # navigated with Alt+hjkl which hands off to Neovim's C-hjkl
+      # (smart-splits) when a vim pane is focused, so one key moves you
+      # through vim splits AND tmux panes seamlessly.
+      tmux = {
+        enable = true;
+        clock24 = true;
+        keyMode = "vi";
+        mouse = true;
+        historyLimit = 50000;
+        extraConfig = ''
+          # True color + cursor shape passthrough from kitty
+          set -ga terminal-overrides ',*:Tc'
+          set -ga terminal-overrides '*:Ss\E[2 q,*:Ss\E[4 q'
+
+          is_vim="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
+          bind -n M-h if-shell "$is_vim" "send-keys C-h" "select-pane -L"
+          bind -n M-j if-shell "$is_vim" "send-keys C-j" "select-pane -D"
+          bind -n M-k if-shell "$is_vim" "send-keys C-k" "select-pane -U"
+          bind -n M-l if-shell "$is_vim" "send-keys C-l" "select-pane -R"
+
+          # Status bar: transparent, blends with kitty's Noctalia theme
+          set -g status-position top
+          set -g status-style 'bg=default,fg=#8b8d98'
+          set -g status-left '#[fg=#8ab4ff,bold] #S '
+          set -g status-right '%H:%M '
+          set -g window-status-current-style 'fg=#e3e3e8,bold'
+          set -g pane-border-style 'fg=#3a3a44'
+          set -g pane-active-border-style 'fg=#8ab4ff'
+        '';
       };
     };
   }  
