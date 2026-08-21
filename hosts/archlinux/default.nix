@@ -41,12 +41,12 @@ in
   programs.noctalia-greeter.settings.output.name = "DP-2";
 
   # OpenRGB: udev rules + SDK server at boot, applying the profile saved as
-  # ~/.config/OpenRGB/profiles/autostart.orp (create it once in the GUI).
+  # ~/.config/OpenRGB/autostart.orp via the GUI's Save Profile button.
   services.hardware.openrgb.enable = true;
   services.udev.packages = [ pkgs.openrgb ];
   boot.kernelModules = [ "i2c-dev" ];
   systemd.services.openrgb.serviceConfig.ExecStart = lib.mkForce
-    "${pkgs.openrgb}/bin/openrgb --server --profile /home/gui/.config/OpenRGB/profiles/autostart.orp";
+    "${pkgs.openrgb}/bin/openrgb --server --profile /home/gui/.config/OpenRGB/autostart.orp";
 
   # Show CPU temp on the pump display; runs as root (writes /dev/hidraw*).
   systemd.services.risemode = {
