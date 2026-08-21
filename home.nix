@@ -272,6 +272,22 @@ packages = with pkgs; [
               echo "}"
             } > "$HOME/notes/.obsidian/snippets/noctalia.css"
           fi
+
+          # --- tmux status bar ---
+          # Transparent bg (kitty's themed bg shows through) + Noctalia
+          # accent. Reloads the live tmux server so changes apply instantly.
+          mkdir -p "$HOME/.config/tmux"
+          cat > "$HOME/.config/tmux/theme.conf" <<TMEOF
+          set -g status-style "bg=default,fg=$MUT"
+          set -g status-left "#[fg=$ACC,bold] #S "
+          set -g status-right "#[fg=$MUT]%H:%M %d %b "
+          set -g window-status-format "#[fg=$MUT]#I #W "
+          set -g window-status-current-format "#[fg=$ACC,bold]#I #W "
+          set -g window-status-separator ""
+          set -g pane-border-style "fg=$BORD"
+          set -g pane-active-border-style "fg=$ACC"
+          TMEOF
+          tmux info >/dev/null 2>&1 && tmux source-file "$HOME/.config/tmux/theme.conf" || true
         '';
       };
       systemd.user.services.noctalia-theme-sync = {
