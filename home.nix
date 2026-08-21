@@ -104,25 +104,6 @@ packages = with pkgs; [
           * { font-family: \"DejaVu Sans Mono\" !important; }
           #navigator-toolbox, #TabsToolbar, #nav-bar { background-color: $BG !important; }
           #PersonalToolbar { background-color: $CARD !important; }
-          /* One-bar layout: tabs left, urlbar right, fused into a single row. */
-          :root { --tab-min-height: 32px !important; }
-          #nav-bar { padding-block: 2px !important; }
-          #urlbar-container { --urlbar-height: 28px !important; }
-          #navigator-toolbox { position: relative !important; }
-          #TabsToolbar {
-            margin-right: 46vw !important;
-            margin-bottom: calc(-1 * var(--tab-min-height, 38px)) !important;
-          }
-          #nav-bar {
-            margin-left: 46vw !important;
-            margin-right: 130px !important;
-          }
-          .titlebar-buttonbox-container {
-            position: absolute !important;
-            top: 0 !important;
-            right: 0 !important;
-            z-index: 10 !important;
-          }
           .tab-background[selected]:not([multiselected]) {
             background-color: $POP !important;
           }
