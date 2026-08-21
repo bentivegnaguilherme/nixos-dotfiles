@@ -41,6 +41,7 @@ packages = with pkgs; [
             '')
           nautilus # file manager
           gvfs # trash, network, device mounting for nautilus
+          obsidian # notes; vault at ~/notes, auto-synced to a private GitHub repo
           unzip # mason package installs
           gh # github cli
         ];
@@ -238,6 +239,35 @@ packages = with pkgs; [
         Unit.Description = "Watch Noctalia GTK palette for changes";
         Path.PathChanged = [ "%h/.config/gtk-4.0/noctalia.css" ];
         Install.WantedBy = [ "default.target" ];
+      };
+
+      # Obsidian vault backup: commit + push ~/notes to the private
+      # `notes` GitHub repo every 15 minutes. Pulls first so edits made
+      # on machine #2 come down automatically.
+      xdg.configFile."notes/sync.sh".text = ''
+        #!/usr/bin/env bash
+        set -euo pipefail
+        cd "$HOME/notes" || exit 0
+        [ -d .git ] || exit 0
+        git add -A
+        git diff --cached --quiet || git commit -q -m "vault sync $(date '+%Y-%m-%d %H:%M')"
+        git pull --rebase -q origin main || true
+        git push -q origin main 2>/dev/null || true
+      '';
+      systemd.user.services.notes-sync = {
+        Unit.Description = "Commit and push Obsidian vault to GitHub";
+        Service = {
+          Type = "oneshot";
+          ExecStart = "%h/.config/notes/sync.sh";
+        };
+      };
+      systemd.user.timers.notes-sync = {
+        Unit.Description = "Periodic Obsidian vault sync";
+        Timer = {
+          OnBootSec = "5min";
+          OnUnitActiveSec = "15min";
+        };
+        Install.WantedBy = [ "timers.target" ];
       };
 
       # Use the generated Noctalia theme in opencode's TUI.
