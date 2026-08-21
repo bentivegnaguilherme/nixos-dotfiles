@@ -46,7 +46,23 @@ packages = with pkgs; [
       dconf.settings."org/gnome/desktop/interface" = {
         cursor-theme = "Bibata-Modern-Classic";
         cursor-size = 24;
+        color-scheme = "prefer-dark";
+        gtk-theme = "Adwaita-dark";
       };
+
+      # Noctalia themes GTK apps via CSS only; it never writes settings.ini.
+      # Firefox's System Theme reads the GTK theme name / dark flag instead,
+      # so declare them here or it renders light.
+      xdg.configFile."gtk-3.0/settings.ini".text = ''
+        [Settings]
+        gtk-theme-name=Adwaita-dark
+        gtk-application-prefer-dark-theme=true
+      '';
+      xdg.configFile."gtk-4.0/settings.ini".text = ''
+        [Settings]
+        gtk-theme-name=Adwaita-dark
+        gtk-application-prefer-dark-theme=true
+      '';
 
     xdg.configFile."wireplumber/wireplumber.conf.d/50-bluez-a2dp.conf".text = ''
       monitor.bluez.rules = [
