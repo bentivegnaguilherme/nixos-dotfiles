@@ -17,12 +17,13 @@
   outputs = { self, nixpkgs, home-manager, noctalia, noctalia-greeter, ... }:
     let
       # To add a machine: create hosts/<name>/default.nix (with its
-      # hardware.nix) and add `<name> = mkHost "<name>";` below.
+      # hardware.nix) and add `<name> = mkHost { hostname = "<name>"; };`
+      # below. Pass `username` too if it differs from the default.
       # Rebuild with: sudo nixos-rebuild switch --flake ~/nixos-dotfiles#<name>
-      mkHost = hostname:
+      mkHost = { hostname, username ? "gui" }:
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit noctalia hostname; };
+          specialArgs = { inherit noctalia hostname username; };
           modules = [
             ./hosts/common.nix
             ./hosts/${hostname}
@@ -33,8 +34,8 @@
     in
     {
       nixosConfigurations = {
-        archlinux = mkHost "archlinux";
-        # machine2 = mkHost "machine2";
+        archlinux = mkHost { hostname = "archlinux"; };
+        # machine2 = mkHost { hostname = "machine2"; };
       };
     };
 }

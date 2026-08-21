@@ -1,11 +1,11 @@
-  { config, pkgs, noctalia, ... }:
+  { config, pkgs, noctalia, username, ... }:
  
   {
      imports = [ noctalia.homeModules.default ];
 
      home = {
-       username = "gui";
-       homeDirectory = "/home/gui";
+       username = username;
+       homeDirectory = "/home/${username}";
        stateVersion = "26.05";
 packages = with pkgs; [
           kitty

@@ -1,6 +1,6 @@
 # Shared configuration for every machine. Host-specific stuff (hardware,
 # GPU drivers) lives in hosts/<hostname>/.
-{ config, lib, pkgs, noctalia, hostname, ... }:
+{ config, lib, pkgs, noctalia, hostname, username, ... }:
 
 {
   networking.hostName = hostname;
@@ -21,15 +21,15 @@
       enable = true;
       settings = {
         session.default = "Niri";
-        user.default = "gui";
+        user.default = username;
       };
     };
   };
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.gui = import ../home.nix;
-    extraSpecialArgs = { inherit noctalia; };
+    users.${username} = import ../home.nix;
+    extraSpecialArgs = { inherit noctalia username; };
     backupFileExtension = "backup";
   };
 
@@ -42,12 +42,12 @@
 
   hardware.bluetooth.enable = true;
 
-  programs.fish.enable = true; # required for users.users.gui.shell
+  programs.fish.enable = true; # required for users.users.${username}.shell
 
   # Lets dynamically-linked prebuilt binaries run (mason tools like stylua).
   programs.nix-ld.enable = true;
 
-  users.users.gui = {
+  users.users.${username} = {
     isNormalUser = true;
     shell = pkgs.fish; # login shell; kitty spawns this automatically
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
