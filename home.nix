@@ -33,16 +33,17 @@ packages = with pkgs; [
           XCURSOR_SIZE = "24";
         };
 
-        # GTK apps (nautilus, firefox) pick the cursor from gsettings, not env vars.
-        dconf.settings."org/gnome/desktop/interface" = {
-          cursor-theme = "Bibata-Modern-Classic";
-          cursor-size = 24;
-        };
         file.".config/niri/config.kdl".source = ./niri-config.kdl;
         file.".config/noctalia/config.toml".source = ./noctalia-config.toml;
         file.".config/fish/config.fish".source = ./fish-config.fish;
         file.".config/kitty/kitty.conf".source = ./kitty.conf;
         file.".config/nvim".source = ./nvim;
+      };
+
+      # GTK apps (nautilus, firefox) pick the cursor from gsettings, not env vars.
+      dconf.settings."org/gnome/desktop/interface" = {
+        cursor-theme = "Bibata-Modern-Classic";
+        cursor-size = 24;
       };
 
     xdg.configFile."wireplumber/wireplumber.conf.d/50-bluez-a2dp.conf".text = ''
