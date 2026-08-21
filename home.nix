@@ -27,6 +27,7 @@ packages = with pkgs; [
           nautilus # file manager
           gvfs # trash, network, device mounting for nautilus
           unzip # mason package installs
+          gh # github cli
         ];
 
         sessionVariables = {
