@@ -105,9 +105,9 @@ packages = with pkgs; [
           #navigator-toolbox, #TabsToolbar, #nav-bar { background-color: $BG !important; }
           #PersonalToolbar { background-color: $CARD !important; }
           /* One-bar layout: tabs left, urlbar right, fused into a single row. */
-          :root { --tab-min-height: 32px !important; }
+          :root { --tab-min-height: 24px !important; }
           #nav-bar { padding-block: 2px !important; }
-          #urlbar-container { --urlbar-height: 28px !important; }
+          #urlbar-container { --urlbar-height: 20px !important; }
           #navigator-toolbox { position: relative !important; }
           #TabsToolbar {
             margin-right: 46vw !important;
