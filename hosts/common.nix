@@ -1,28 +1,19 @@
-{ config, lib, pkgs, noctalia, ... }:
+# Shared configuration for every machine. Host-specific stuff (hardware,
+# GPU drivers) lives in hosts/<hostname>/.
+{ config, lib, pkgs, noctalia, hostname, ... }:
 
 {
-  imports =
-    [ 
-      ./hardware-configuration.nix
-    ];
-  
+  networking.hostName = hostname;
+  networking.networkmanager.enable = true;
+
   nixpkgs.config.allowUnfree = true;
-  hardware.graphics.enable = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia = {
-    modesetting.enable = true;
-    open = true;
-    nvidiaSettings = true;
-    powerManagement.enable = true;
-  };
+
+  time.timeZone = "America/Sao_Paulo";
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "archlinux";
-  networking.networkmanager.enable = true;
-
-  time.timeZone = "America/Sao_Paulo";
+  hardware.graphics.enable = true;
 
   programs = {
     niri.enable = true;
@@ -37,7 +28,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.gui = import ./home.nix;
+    users.gui = import ../home.nix;
     extraSpecialArgs = { inherit noctalia; };
     backupFileExtension = "backup";
   };
@@ -46,7 +37,7 @@
     enable = true;
     pulse.enable = true;
   };
-  
+
   fonts.packages = with pkgs; [ jetbrains-mono ];
 
   hardware.bluetooth.enable = true;
@@ -79,11 +70,9 @@
 
   zramSwap = {
     enable = true;
-    memoryPercent = 25;  
-    priority = 100;   
+    memoryPercent = 25;
+    priority = 100;
   };
 
   system.stateVersion = "26.05";
-
 }
-
