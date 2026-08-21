@@ -1,6 +1,6 @@
 # Shared configuration for every machine. Host-specific stuff (hardware,
 # GPU drivers) lives in hosts/<hostname>/.
-{ config, lib, pkgs, noctalia, hostname, username, ... }:
+{ config, lib, pkgs, noctalia, unstable, hostname, username, ... }:
 
 {
   networking.hostName = hostname;
@@ -35,7 +35,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     users.${username} = import ../home.nix;
-    extraSpecialArgs = { inherit noctalia username; };
+    extraSpecialArgs = { inherit noctalia username unstable; };
     backupFileExtension = "backup";
   };
 

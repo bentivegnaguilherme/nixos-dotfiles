@@ -1,4 +1,4 @@
-  { config, pkgs, noctalia, username, ... }:
+  { config, pkgs, noctalia, unstable, username, ... }:
  
   {
      imports = [ noctalia.homeModules.default ];
@@ -14,7 +14,7 @@ packages = with pkgs; [
           tree
           neovim
           git
-          opencode
+          unstable.opencode # from the unstable channel; lags less than stable pin (see flake.nix)
           pulseaudio
           starship
           wl-clipboard # nvim system clipboard (wl-copy/wl-paste)
