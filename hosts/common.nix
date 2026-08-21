@@ -46,7 +46,28 @@
 
   fonts.packages = with pkgs; [ jetbrains-mono dejavu_fonts ];
 
-  hardware.bluetooth.enable = true;
+  # Bluetooth: aggressive reconnect + no HFP/HSP from wireplumber.
+  # Without the wireplumber override it races bluetoothd for the A2DP
+  # sink ("device or resource busy") and BT speakers vanish from the
+  # audio output panel mid-session.
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        FastConnectable = true;
+        AutoEnable = true;
+        ReconnectAttempts = 10;
+        ReconnectIntervals = "1,2,4,8,16,32,64,128";
+      };
+    };
+  };
+  services.pipewire.wireplumber.extraConfig."51-no-hfp" = {
+    "monitor.bluez.properties" = {
+      "bluez5.enable-hsp-off" = true;
+      "bluez5.enable-hfp-off" = true;
+    };
+  };
 
   programs.fish.enable = true; # required for users.users.${username}.shell
 
