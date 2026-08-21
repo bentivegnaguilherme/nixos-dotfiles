@@ -22,6 +22,12 @@
       settings = {
         session.default = "Niri";
         user.default = username;
+        # Not covered by shell sync; wallpaper/palette come from Auto-Sync instead.
+        cursor = {
+          theme = "Bibata-Modern-Classic";
+          size = 24;
+          path = "${pkgs.bibata-cursors}/share/icons";
+        };
       };
     };
   };
