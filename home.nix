@@ -298,16 +298,19 @@ packages = with pkgs; [
       # Obsidian vault backup: commit + push ~/notes to the private
       # `notes` GitHub repo every 15 minutes. Pulls first so edits made
       # on machine #2 come down automatically.
-      xdg.configFile."notes/sync.sh".text = ''
-        #!/usr/bin/env bash
-        set -euo pipefail
-        cd "$HOME/notes" || exit 0
-        [ -d .git ] || exit 0
-        git add -A
-        git diff --cached --quiet || git commit -q -m "vault sync $(date '+%Y-%m-%d %H:%M')"
-        git pull --rebase -q origin main || true
-        git push -q origin main 2>/dev/null || true
-      '';
+      xdg.configFile."notes/sync.sh" = {
+        executable = true; # systemd refuses to ExecStart a non-executable file
+        text = ''
+          #!/usr/bin/env bash
+          set -euo pipefail
+          cd "$HOME/notes" || exit 0
+          [ -d .git ] || exit 0
+          git add -A
+          git diff --cached --quiet || git commit -q -m "vault sync $(date '+%Y-%m-%d %H:%M')"
+          git pull --rebase -q origin main || true
+          git push -q origin main 2>/dev/null || true
+        '';
+      };
       systemd.user.services.notes-sync = {
         Unit.Description = "Commit and push Obsidian vault to GitHub";
         Service = {
