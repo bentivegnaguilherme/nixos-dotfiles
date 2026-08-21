@@ -247,7 +247,7 @@ packages = with pkgs; [
                 rm -rf "$DST.tmp"
                 cp -r "$SRC" "$DST.tmp" && mv "$DST.tmp" "$DST"
               fi
-              if papirus-folders -C --theme Papirus-Dark --color "$COLOR" >/dev/null 2>&1; then
+              if papirus-folders -t Papirus-Dark -C "$COLOR" >/dev/null 2>&1; then
                 command -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -f "$DST" >/dev/null 2>&1 || true
                 printf '%s' "$COLOR" > "$STATE"
               fi
