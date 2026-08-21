@@ -38,7 +38,7 @@
     pulse.enable = true;
   };
 
-  fonts.packages = with pkgs; [ jetbrains-mono ];
+  fonts.packages = with pkgs; [ jetbrains-mono dejavu_fonts ];
 
   hardware.bluetooth.enable = true;
 

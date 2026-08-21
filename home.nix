@@ -48,7 +48,12 @@ packages = with pkgs; [
         cursor-size = 24;
         color-scheme = "prefer-dark";
         gtk-theme = "Adwaita-dark";
+        font-name = "DejaVu Sans Mono 11";
       };
+
+      # System-wide font defaults: DejaVu Sans Mono everywhere monospace is
+      # requested (kitty's look, applied to the rest of the system).
+      fonts.fontconfig.defaultFonts.monospace = [ "DejaVu Sans Mono" ];
 
       # Noctalia themes GTK apps via CSS only; it never writes settings.ini.
       # Firefox's System Theme reads the GTK theme name / dark flag instead,
@@ -96,7 +101,7 @@ packages = with pkgs; [
           }
           /* Paint chrome elements directly: --lwt-* background vars are
              ignored unless a lightweight theme is active. */
-          * { font-family: \"JetBrains Mono\" !important; }
+          * { font-family: \"DejaVu Sans Mono\" !important; }
           #navigator-toolbox, #TabsToolbar, #nav-bar { background-color: $BG !important; }
           #PersonalToolbar { background-color: $CARD !important; }
           /* One-bar layout: tabs left, urlbar right, fused into a single row. */
