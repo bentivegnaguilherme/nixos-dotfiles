@@ -402,7 +402,7 @@ unit = "celsius"
 
 [widget.launcher]
 custom_image = "/home/gui/.config/noctalia/arch-logo.svg"
-custom_image_colorize = false
+custom_image_colorize = true
 
 [widget.control-center]
 enabled = false
