@@ -47,6 +47,18 @@
   # Lets dynamically-linked prebuilt binaries run (mason tools like stylua).
   programs.nix-ld.enable = true;
 
+  # Allow Firefox userChrome.css (Noctalia color sync in home.nix).
+  environment.etc."firefox/policies/policies.json".text = builtins.toJSON {
+    policies = {
+      Preferences = {
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = {
+          Value = true;
+          Status = "locked";
+        };
+      };
+    };
+  };
+
   users.users.${username} = {
     isNormalUser = true;
     shell = pkgs.fish; # login shell; kitty spawns this automatically
