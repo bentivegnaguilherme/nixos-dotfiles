@@ -2,7 +2,9 @@ return {
   "yetone/avante.nvim",
   event = "VeryLazy",
   version = false,
-  build = "make",
+  -- NOTE: no `build = "make"` -- it compiles a Rust tokenizer and needs cargo.
+  -- Without it avante falls back to approximate token counting; if you ever
+  -- want exact counts, install cargo and restore the build step.
   opts = {
     -- Default provider is OpenAI-compatible; set OPENAI_API_KEY in your
     -- environment, or add a provider block here (anthropic, copilot, ollama...).
