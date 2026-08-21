@@ -207,6 +207,8 @@ packages = with pkgs; [
           EOF
 
           # --- Papirus folder color follows the accent hue ---
+          # Runs against a writable copy in ~/.local/share/icons (the store
+          # copy is read-only); skips work when the color is unchanged.
           if command -v papirus-folders >/dev/null 2>&1; then
             H=$(printf '%s' "$ACC" | awk '{
               r = strtonum("0x" substr($0, 2, 2))
@@ -231,7 +233,22 @@ packages = with pkgs; [
             elif [ "$H" -lt 320 ]; then COLOR=violet
             else                        COLOR=magenta
             fi
-            papirus-folders -C --theme Papirus-Dark --color "$COLOR" >/dev/null 2>&1 || true
+            STATE="$HOME/.cache/noctalia-papirus-color"
+            DST="$HOME/.local/share/icons/Papirus-Dark"
+            SRC=""
+            for cand in /etc/profiles/per-user/"$USER"/share/icons/Papirus-Dark /run/current-system/sw/share/icons/Papirus-Dark; do
+              [ -d "$cand" ] && SRC="$cand" && break
+            done
+            if [ -n "$SRC" ] && [ "$COLOR" != "$(cat "$STATE" 2>/dev/null || true)" ]; then
+              if [ ! -d "$DST" ]; then
+                mkdir -p "$HOME/.local/share/icons"
+                rm -rf "$DST.tmp"
+                cp -r "$SRC" "$DST.tmp" && mv "$DST.tmp" "$DST"
+              fi
+              papirus-folders -C --theme Papirus-Dark --color "$COLOR" >/dev/null 2>&1 || true
+              command -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -f "$DST" >/dev/null 2>&1 || true
+              printf '%s' "$COLOR" > "$STATE"
+            fi
           fi
         '';
       };
