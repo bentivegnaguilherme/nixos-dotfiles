@@ -235,10 +235,10 @@ packages = with pkgs; [
             fi
             STATE="$HOME/.cache/noctalia-papirus-color"
             DST="$HOME/.local/share/icons/Papirus-Dark"
+            PF=$(command -v papirus-folders)
             SRC=""
-            for cand in /etc/profiles/per-user/"$USER"/share/icons/Papirus-Dark /run/current-system/sw/share/icons/Papirus-Dark; do
-              [ -d "$cand" ] && SRC="$cand" && break
-            done
+            [ -n "$PF" ] && SRC="$(dirname "$(dirname "$PF")")/share/icons/Papirus-Dark"
+            [ -d "$SRC" ] || [ -d "/run/current-system/sw/share/icons/Papirus-Dark" ] && { [ -d "$SRC" ] || SRC="/run/current-system/sw/share/icons/Papirus-Dark"; }
             if [ -n "$SRC" ] && [ "$COLOR" != "$(cat "$STATE" 2>/dev/null || true)" ]; then
               if [ ! -d "$DST" ]; then
                 mkdir -p "$HOME/.local/share/icons"
