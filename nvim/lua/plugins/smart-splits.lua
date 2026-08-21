@@ -1,33 +1,20 @@
+-- smart-splits: the LazyVim extra (imported in config/lazy.lua) provides
+-- the plugin and default keys (C-hjkl move, A-hjkl resize). This file
+-- adapts them to our tmux contract: tmux forwards M-hjkl into nvim for
+-- MOVEMENT (C-h arrives mangled as backspace through tmux), so resizes
+-- move out of Alt to Ctrl+Alt+hjkl.
 return {
-  "mrjones2014/smart-splits.nvim",
-  lazy = false,
-  config = function()
-    require("smart-splits").setup({})
-    local map = vim.keymap.set
-    local ss = require("smart-splits")
-
-    -- Move between splits. Alt variants are the ones tmux forwards when
-    -- a vim pane is focused (C-h gets mangled into backspace by tmux's
-    -- legacy encoding); C-hjkl kept for direct use in kitty.
-    map("n", "<C-h>", ss.move_cursor_left, { desc = "Move to left window" })
-    map("n", "<C-j>", ss.move_cursor_down, { desc = "Move to lower window" })
-    map("n", "<C-k>", ss.move_cursor_up, { desc = "Move to upper window" })
-    map("n", "<C-l>", ss.move_cursor_right, { desc = "Move to right window" })
-    map("n", "<M-h>", ss.move_cursor_left, { desc = "Move to left window" })
-    map("n", "<M-j>", ss.move_cursor_down, { desc = "Move to lower window" })
-    map("n", "<M-k>", ss.move_cursor_up, { desc = "Move to upper window" })
-    map("n", "<M-l>", ss.move_cursor_right, { desc = "Move to right window" })
-
-    -- Resizing splits.
-    map("n", "<A-h>", ss.resize_left, { desc = "Resize split left" })
-    map("n", "<A-j>", ss.resize_down, { desc = "Resize split down" })
-    map("n", "<A-k>", ss.resize_up, { desc = "Resize split up" })
-    map("n", "<A-l>", ss.resize_right, { desc = "Resize split right" })
-
-    -- Swapping buffers between splits.
-    map("n", "<leader><C-h>", ss.swap_buf_left, { desc = "Swap buffer left" })
-    map("n", "<leader><C-j>", ss.swap_buf_down, { desc = "Swap buffer down" })
-    map("n", "<leader><C-k>", ss.swap_buf_up, { desc = "Swap buffer up" })
-    map("n", "<leader><C-l>", ss.swap_buf_right, { desc = "Swap buffer right" })
-  end,
+  {
+    "mrjones2014/smart-splits.nvim",
+    keys = {
+      { "<M-h>", function() require("smart-splits").move_cursor_left() end, desc = "Move to left window" },
+      { "<M-j>", function() require("smart-splits").move_cursor_down() end, desc = "Move to lower window" },
+      { "<M-k>", function() require("smart-splits").move_cursor_up() end, desc = "Move to upper window" },
+      { "<M-l>", function() require("smart-splits").move_cursor_right() end, desc = "Move to right window" },
+      { "<C-A-h>", function() require("smart-splits").resize_left() end, desc = "Resize split left" },
+      { "<C-A-j>", function() require("smart-splits").resize_down() end, desc = "Resize split down" },
+      { "<C-A-k>", function() require("smart-splits").resize_up() end, desc = "Resize split up" },
+      { "<C-A-l>", function() require("smart-splits").resize_right() end, desc = "Resize split right" },
+    },
+  },
 }
