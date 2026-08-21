@@ -11,4 +11,7 @@
     nvidiaSettings = true;
     powerManagement.enable = true;
   };
+
+  # Greeter on the main monitor (ASUS VG27AQ5A); the Dell stays off until login.
+  programs.noctalia-greeter.settings.output.name = "DP-2";
 }
