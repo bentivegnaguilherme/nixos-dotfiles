@@ -112,7 +112,6 @@ packages = with pkgs; [
           }
           #nav-bar {
             margin-left: 46vw !important;
-            margin-top: calc(-1 * var(--tab-min-height, 38px)) !important;
             margin-right: 130px !important;
           }
           .titlebar-buttonbox-container {
