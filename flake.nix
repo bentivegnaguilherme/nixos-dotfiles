@@ -39,7 +39,7 @@
     {
       nixosConfigurations = {
         archlinux = mkHost { hostname = "archlinux"; };
-        # machine2 = mkHost { hostname = "machine2"; };
+        laptop = mkHost { hostname = "laptop"; };
       };
     };
 }
