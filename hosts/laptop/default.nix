@@ -12,6 +12,14 @@
   # Intel GPU — no nvidia block, no openrgb, no risemode.
   hardware.graphics.enable = true;
 
+  # Legacy BIOS → GRUB instead of systemd-boot (EFI).
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+  boot.loader.efi.canTouchEfiVariables = lib.mkForce false;
+  boot.loader.grub = {
+    enable = true;
+    device = "/dev/sda";
+  };
+
   # Broadcom BCM43142 WiFi — needs proprietary driver.
   hardware.enableRedistributableFirmware = true;
   hardware.firmware = [ pkgs.linux-firmware ];
