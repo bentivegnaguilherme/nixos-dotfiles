@@ -28,4 +28,7 @@
 
   # Greeter on the laptop's internal display.
   programs.noctalia-greeter.settings.output.name = "eDP-1";
+
+  # Root login — change this after first boot!
+  users.users.root.initialPassword = "nixos";
 }
